@@ -1,0 +1,38 @@
+[
+  "http://publications.europa.eu/resource/authority/data-theme/ENVI",
+  {
+    "_about": "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente",
+    "prefLabel": [
+      {
+        "_value": "Medio ambiente",
+        "_lang": "es"
+      }
+    ]
+  },
+  "http://inspire.ec.europa.eu/theme/ac",
+  {
+    "_about": "http://datos.gob.es/kos/sector-publico/sector/economia",
+    "prefLabel": "Economia"
+  },
+  {
+    "_about": "http://datos.gob.es/kos/sector-publico/sector/sociedad-bienestar",
+    "prefLabel": [
+      {
+        "_value": "Sociedad y bienestar",
+        "_lang": "es"
+      },
+      {
+        "_value": "Society and welfare",
+        "_lang": "en"
+      }
+    ]
+  },
+  {
+    "_about": "http://datos.gob.es/kos/sector-publico/sector/transporte",
+    "prefLabel": "Transporte"
+  },
+  {
+    "_about": "http://datos.gob.es/kos/sector-publico/sector/ciencia-tecnologia",
+    "prefLabel": "Ciencia y tecnologia"
+  }
+]

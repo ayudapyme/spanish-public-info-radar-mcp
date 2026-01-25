@@ -1,0 +1,62 @@
+{
+  "status": "OK",
+  "data": {
+    "sumario": {
+      "metadatos": {
+        "publicacion": "BORME núm. 15",
+        "fecha_publicacion": "20260120"
+      },
+      "diario": [
+        {
+          "numero": "15",
+          "seccion": [
+            {
+              "@nombre": "ACTOS INSCRITOS",
+              "emisor": [
+                {
+                  "@nombre": "MADRID",
+                  "item": [
+                    {
+                      "@id": "BORME-A-2026-15-28-001",
+                      "titulo": "Constitución - TECNOLOGIAS INNOVADORAS SL",
+                      "urlPdf": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-001.pdf"
+                    },
+                    {
+                      "@id": "BORME-A-2026-15-28-002",
+                      "titulo": "Ampliación de capital - CONSTRUCCIONES GARCIA LOPEZ SA",
+                      "urlPdf": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-002.pdf"
+                    },
+                    {
+                      "@id": "BORME-A-2026-15-28-003",
+                      "titulo": "Nombramientos - SERVICIOS INTEGRALES DEL NORTE SL",
+                      "urlPdf": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-003.pdf"
+                    }
+                  ]
+                },
+                {
+                  "@nombre": "BARCELONA",
+                  "item": {
+                    "@id": "BORME-A-2026-15-08-001",
+                    "titulo": "Disolución - DISTRIBUCIONES MEDITERRANEO SA",
+                    "urlPdf": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-08-001.pdf"
+                  }
+                }
+              ]
+            },
+            {
+              "@nombre": "OTROS ACTOS",
+              "emisor": {
+                "@nombre": "NACIONAL",
+                "item": {
+                  "@id": "BORME-B-2026-15-00-001",
+                  "titulo": "Convocatoria Junta - EMPRESA NACIONAL DE TRANSPORTES SA",
+                  "urlPdf": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-B-2026-15-00-001.pdf"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

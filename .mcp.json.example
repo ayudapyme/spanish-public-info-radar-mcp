@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "public-radar": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "python", "-m", "public_radar", "--stdio"],
+      "cwd": "/path/to/your/mcp_project"
+    }
+  }
+}

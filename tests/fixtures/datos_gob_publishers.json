@@ -1,0 +1,26 @@
+{
+  "_about": "http://datos.gob.es/apidata/catalog/publisher.json?_pageSize=5&_page=0",
+  "items": [
+    "http://datos.gob.es/recurso/sector-publico/org/Organismo/E05068001",
+    "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0010587",
+    {
+      "_about": "http://datos.gob.es/recurso/sector-publico/org/Organismo/L01280796",
+      "name": "Ayuntamiento de Madrid"
+    },
+    {
+      "_about": "http://datos.gob.es/recurso/sector-publico/org/Organismo/A09002970",
+      "prefLabel": [
+        {
+          "_value": "Gobierno de Aragon",
+          "_lang": "es"
+        }
+      ]
+    },
+    "http://datos.gob.es/recurso/sector-publico/org/Organismo/E05068901"
+  ],
+  "itemsPerPage": 5,
+  "page": 0,
+  "startIndex": 1,
+  "totalResults": 500,
+  "type": "http://purl.org/linked-data/api/vocab#Page"
+}

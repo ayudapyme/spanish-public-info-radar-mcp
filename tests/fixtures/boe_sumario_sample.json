@@ -1,0 +1,71 @@
+{
+  "status": "OK",
+  "data": {
+    "sumario": {
+      "metadatos": {
+        "publicacion": "BOE núm. 20",
+        "fecha_publicacion": "20260120"
+      },
+      "diario": [
+        {
+          "numero": "20",
+          "seccion": [
+            {
+              "@nombre": "I. Disposiciones generales",
+              "departamento": [
+                {
+                  "@nombre": "MINISTERIO DE ECONOMÍA",
+                  "epigrafe": [
+                    {
+                      "@nombre": "Subvenciones",
+                      "item": [
+                        {
+                          "@id": "BOE-A-2026-1234",
+                          "titulo": "Orden por la que se establecen las bases reguladoras de subvenciones",
+                          "urlPdf": "https://www.boe.es/boe/dias/2026/01/20/pdfs/BOE-A-2026-1234.pdf",
+                          "urlHtml": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-1234"
+                        },
+                        {
+                          "@id": "BOE-A-2026-1235",
+                          "titulo": "Real Decreto sobre ayudas a la investigación científica",
+                          "urlPdf": "https://www.boe.es/boe/dias/2026/01/20/pdfs/BOE-A-2026-1235.pdf",
+                          "urlHtml": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-1235"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "@nombre": "MINISTERIO DE INDUSTRIA",
+                  "epigrafe": {
+                    "@nombre": "Nombramientos",
+                    "item": {
+                      "@id": "BOE-A-2026-1236",
+                      "titulo": "Nombramiento de Director General de Industria",
+                      "urlPdf": "https://www.boe.es/boe/dias/2026/01/20/pdfs/BOE-A-2026-1236.pdf",
+                      "urlHtml": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-1236"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "@nombre": "II. Autoridades y personal",
+              "departamento": {
+                "@nombre": "TRIBUNAL CONSTITUCIONAL",
+                "epigrafe": {
+                  "@nombre": "Recursos",
+                  "item": {
+                    "@id": "BOE-A-2026-1237",
+                    "titulo": "Recurso de inconstitucionalidad n.º 123-2026",
+                    "urlPdf": "https://www.boe.es/boe/dias/2026/01/20/pdfs/BOE-A-2026-1237.pdf"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

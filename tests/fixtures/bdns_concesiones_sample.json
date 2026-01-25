@@ -1,0 +1,48 @@
+{
+  "total": 3,
+  "page": 1,
+  "pageSize": 100,
+  "items": [
+    {
+      "idConcesion": "CON-2026-001",
+      "codigoBdns": "700001",
+      "tituloConvocatoria": "Subvenciones para proyectos de innovacion tecnologica 2026",
+      "fechaConcesion": "2026-01-18",
+      "beneficiario": {
+        "nombre": "TECNOLOGIAS AVANZADAS SL",
+        "nif": "B12345678"
+      },
+      "organo": {
+        "nombre": "Ministerio de Ciencia e Innovacion",
+        "nif": "S2826001E"
+      },
+      "importe": 150000.00
+    },
+    {
+      "idConcesion": "CON-2026-002",
+      "codigoBdns": "700001",
+      "tituloConvocatoria": "Subvenciones para proyectos de innovacion tecnologica 2026",
+      "fechaResolucion": "2026-01-18",
+      "beneficiario": {
+        "nombre": "INNOVACIONES DIGITALES SA",
+        "nif": "A87654321"
+      },
+      "organo": {
+        "nombre": "Ministerio de Ciencia e Innovacion",
+        "nif": "S2826001E"
+      },
+      "importeConcedido": 200000.00
+    },
+    {
+      "idConcesion": "CON-2026-003",
+      "codigoBdns": "700002",
+      "titulo": "Ayudas al emprendimiento juvenil",
+      "fecha": "2026-01-20",
+      "nombreBeneficiario": "GARCIA MARTINEZ JUAN",
+      "nifBeneficiario": "12345678A",
+      "nombreOrgano": "Comunidad de Madrid",
+      "nifOrgano": "Q2800001A",
+      "importe": 25000
+    }
+  ]
+}

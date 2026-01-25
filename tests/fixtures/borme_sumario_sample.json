@@ -1,0 +1,95 @@
+{
+  "status": "OK",
+  "data": {
+    "sumario": {
+      "metadatos": {
+        "publicacion": "BORME núm. 15",
+        "fecha_publicacion": "20260120"
+      },
+      "diario": [
+        {
+          "numero": "15",
+          "sumario_diario": {
+            "identificador": "BORME-S-20260120",
+            "url_pdf": {
+              "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-S-20260120.pdf"
+            }
+          },
+          "seccion": [
+            {
+              "codigo": "A",
+              "nombre": "MADRID",
+              "item": [
+                {
+                  "identificador": "BORME-A-2026-15-28-001",
+                  "titulo": "TECNOLOGIAS INNOVADORAS SL",
+                  "url_pdf": {
+                    "szBytes": "12345",
+                    "szKBytes": "12",
+                    "pagina_inicial": "1",
+                    "pagina_final": "2",
+                    "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-001.pdf"
+                  }
+                },
+                {
+                  "identificador": "BORME-A-2026-15-28-002",
+                  "titulo": "CONSTRUCCIONES GARCIA LOPEZ SA. Capital: 60.000 Euros.",
+                  "url_pdf": {
+                    "szBytes": "15678",
+                    "szKBytes": "15",
+                    "pagina_inicial": "3",
+                    "pagina_final": "4",
+                    "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-002.pdf"
+                  }
+                },
+                {
+                  "identificador": "BORME-A-2026-15-28-003",
+                  "titulo": "SERVICIOS INTEGRALES DEL NORTE SL. Adm. Unico: GARCIA MARTINEZ JUAN.",
+                  "url_pdf": {
+                    "szBytes": "9876",
+                    "szKBytes": "9",
+                    "pagina_inicial": "5",
+                    "pagina_final": "5",
+                    "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-28-003.pdf"
+                  }
+                }
+              ]
+            },
+            {
+              "codigo": "B",
+              "nombre": "BARCELONA",
+              "item": [
+                {
+                  "identificador": "BORME-A-2026-15-08-001",
+                  "titulo": "DISTRIBUCIONES MEDITERRANEO SA",
+                  "url_pdf": {
+                    "szBytes": "11111",
+                    "szKBytes": "11",
+                    "pagina_inicial": "10",
+                    "pagina_final": "11",
+                    "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-A-2026-15-08-001.pdf"
+                  }
+                }
+              ]
+            },
+            {
+              "codigo": "C",
+              "nombre": "NACIONAL",
+              "item": {
+                "identificador": "BORME-B-2026-15-00-001",
+                "titulo": "EMPRESA NACIONAL DE TRANSPORTES SA. Convocatoria Junta General Ordinaria.",
+                "url_pdf": {
+                  "szBytes": "8765",
+                  "szKBytes": "8",
+                  "pagina_inicial": "20",
+                  "pagina_final": "21",
+                  "texto": "https://www.boe.es/borme/dias/2026/01/20/pdfs/BORME-B-2026-15-00-001.pdf"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

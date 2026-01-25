@@ -1,0 +1,30 @@
+# Spanish Public Data MCP Server - Docker Compose
+# Usage:
+#   docker-compose up -d        # Start MCP server
+#   docker-compose logs -f      # Follow logs
+#   docker-compose down         # Stop server
+
+services:
+  # Spanish Public Data MCP Server
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spanish_public_data_mcp
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      MCP_LOGS_DIR: /app/logs
+    ports:
+      - "${MCP_PORT:-8080}:8080"
+    volumes:
+      - mcp_logs:/app/logs
+    command: uv run python -m public_radar --host 0.0.0.0 --port 8080
+    restart: unless-stopped
+
+volumes:
+  mcp_logs:
+    driver: local
+
+networks:
+  default:
+    name: spanish_public_data_network

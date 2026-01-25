@@ -1,0 +1,52 @@
+{
+  "total": 3,
+  "page": 1,
+  "pageSize": 100,
+  "items": [
+    {
+      "codigoBdns": "700001",
+      "titulo": "Subvenciones para proyectos de innovacion tecnologica 2026",
+      "descripcion": "Ayudas destinadas a fomentar la innovacion en empresas del sector tecnologico",
+      "fechaPublicacion": "2026-01-10",
+      "fechaFin": "2026-03-31",
+      "organo": {
+        "nombre": "Ministerio de Ciencia e Innovacion",
+        "nif": "S2826001E"
+      },
+      "presupuesto": 5000000.00,
+      "urlBases": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-001",
+      "tiposBeneficiarios": [
+        {"descripcion": "Empresas"},
+        {"descripcion": "Centros de investigacion"}
+      ],
+      "sector": {"descripcion": "Tecnologia e innovacion"},
+      "ambitoGeografico": {"descripcion": "Nacional"}
+    },
+    {
+      "codigoBdns": "700002",
+      "titulo": "Ayudas al emprendimiento juvenil",
+      "descripcion": "Subvenciones para jovenes emprendedores menores de 35 anos",
+      "fechaPublicacion": "2026-01-15",
+      "fechaFin": "2026-06-30",
+      "organo": {
+        "nombre": "Comunidad de Madrid",
+        "nif": "Q2800001A"
+      },
+      "presupuesto": 2000000.00,
+      "urlBases": "https://www.comunidad.madrid/servicios/ayudas-emprendimiento",
+      "tiposBeneficiarios": [
+        {"descripcion": "Personas fisicas"}
+      ],
+      "sector": {"descripcion": "Emprendimiento"},
+      "ambitoGeografico": {"descripcion": "Comunidad de Madrid"}
+    },
+    {
+      "codigoBdns": "700003",
+      "titulo": "Becas de formacion en administracion publica",
+      "fechaInicio": "2026-01-20",
+      "plazoSolicitud": "2026-02-28",
+      "organo": "INAP",
+      "importeTotal": 1500000
+    }
+  ]
+}

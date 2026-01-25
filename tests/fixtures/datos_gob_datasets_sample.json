@@ -1,0 +1,99 @@
+{
+  "_about": "http://datos.gob.es/apidata/catalog/dataset.json?_pageSize=2&_page=0",
+  "items": [
+    {
+      "_about": "https://datos.gob.es/catalogo/e05068001-mapas-estrategicos-de-ruido",
+      "accrualPeriodicity": "http://publications.europa.eu/resource/authority/frequency/OP_DATPRO",
+      "description": [
+        {
+          "_value": "Mapas estrategicos de ruido de la tercera fase de implementacion.",
+          "_lang": "es"
+        },
+        {
+          "_value": "Strategic Noise Maps for the third phase of implementation.",
+          "_lang": "en"
+        }
+      ],
+      "distribution": {
+        "_about": "https://datos.gob.es/catalogo/e05068001-mapas-estrategicos-de-ruido/resource/d55c0b96",
+        "accessURL": "https://example.com/data.html",
+        "format": "http://publications.europa.eu/resource/authority/file-type/HTML",
+        "title": [
+          {
+            "_value": "Mapas Estrategicos de Ruido",
+            "_lang": "es"
+          }
+        ],
+        "type": "http://www.w3.org/ns/dcat#Distribution"
+      },
+      "identifier": "b0da07b8-6856-4af2-91f7-20a7531d6b6f",
+      "issued": "2021-12-19T00:00:00Z",
+      "keyword": [
+        {
+          "_value": "environment",
+          "_lang": "es"
+        },
+        {
+          "_value": "noise",
+          "_lang": "en"
+        }
+      ],
+      "language": "http://publications.europa.eu/resource/authority/language/SPA",
+      "license": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0",
+      "modified": "2025-06-18T00:00:00Z",
+      "publisher": "http://datos.gob.es/recurso/sector-publico/org/Organismo/E05068001",
+      "spatial": "http://datos.gob.es/recurso/sector-publico/territorio/Pais/Espana",
+      "theme": [
+        "http://datos.gob.es/kos/sector-publico/sector/medio-ambiente",
+        "http://publications.europa.eu/resource/authority/data-theme/ENVI"
+      ],
+      "title": [
+        {
+          "_value": "Mapas estrategicos de Ruido",
+          "_lang": "es"
+        },
+        {
+          "_value": "Strategic Noise maps",
+          "_lang": "en"
+        }
+      ],
+      "type": [
+        "http://www.w3.org/ns/dcat#Dataset"
+      ]
+    },
+    {
+      "_about": "https://datos.gob.es/catalogo/ea0010587-valor-anadido-bruto",
+      "description": [
+        {
+          "_value": "Valor Anadido Bruto. Anual. Nacional.",
+          "_lang": "es"
+        }
+      ],
+      "identifier": "67197",
+      "issued": "2022-01-15T00:00:00Z",
+      "keyword": [
+        "economia",
+        "PIB"
+      ],
+      "license": "http://publications.europa.eu/resource/authority/licence/CC_BY_4_0",
+      "publisher": {
+        "_about": "http://datos.gob.es/recurso/sector-publico/org/Organismo/EA0010587",
+        "name": "Instituto Nacional de Estadistica"
+      },
+      "theme": [
+        "http://datos.gob.es/kos/sector-publico/sector/economia"
+      ],
+      "title": [
+        {
+          "_value": "Valor Anadido Bruto",
+          "_lang": "es"
+        }
+      ]
+    }
+  ],
+  "itemsPerPage": 2,
+  "page": 0,
+  "startIndex": 1,
+  "totalResults": 40000,
+  "type": "http://purl.org/linked-data/api/vocab#Page"
+}

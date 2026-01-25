@@ -1,0 +1,41 @@
+name: Integration Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for running integration tests"
+        required: false
+        default: "Manual trigger"
+  schedule:
+    # Run weekly on Sundays at 00:00 UTC
+    - cron: "0 0 * * 0"
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras
+
+      - name: Run integration tests
+        run: |
+          uv run pytest tests/integration -m integration -v --tb=short
+        env:
+          # Add any API keys or env vars needed for integration tests
+          INTEGRATION_TEST: "true"
