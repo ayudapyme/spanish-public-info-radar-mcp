@@ -152,9 +152,7 @@ class TestFetchWithRetry:
         mock_client = MagicMock(spec=httpx.Client)
         mock_client.request.return_value = mock_response
 
-        result = fetch_with_retry(
-            mock_client, "http://example.com", raise_for_status=False
-        )
+        result = fetch_with_retry(mock_client, "http://example.com", raise_for_status=False)
 
         assert result == mock_response
 

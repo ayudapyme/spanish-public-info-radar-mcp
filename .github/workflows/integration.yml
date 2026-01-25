@@ -35,7 +35,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          uv run pytest tests/integration -m integration -v --tb=short
+          uv run pytest tests/integration -m integration -v --tb=short --no-cov
         env:
           # Add any API keys or env vars needed for integration tests
           INTEGRATION_TEST: "true"

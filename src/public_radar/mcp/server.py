@@ -1372,7 +1372,9 @@ async def _get_boe_summary(params: GetBoeSummaryInput) -> dict[str, Any]:
         # Add warning if we used a fallback date
         if fallback_used:
             result["requested_date"] = requested_date.isoformat()
-            result["warning"] = f"No BOE published for {requested_date.isoformat()} (weekend/holiday). Showing data from {target_date.isoformat()} instead."
+            result["warning"] = (
+                f"No BOE published for {requested_date.isoformat()} (weekend/holiday). Showing data from {target_date.isoformat()} instead."
+            )
 
         return result
     except Exception as e:
