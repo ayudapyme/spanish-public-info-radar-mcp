@@ -372,21 +372,52 @@ class ListOpenDataPublishersInput(StrictModel):
 
 
 # =============================================================================
+# Schema Helper
+# =============================================================================
+
+
+def _flatten_schema(schema: dict) -> dict:
+    """Fix Pydantic v2 anyOf/oneOf from Optional fields for n8n compatibility.
+
+    Pydantic v2 generates {"anyOf": [{"type": "string"}, {"type": "null"}]}
+    for Optional[str] fields. n8n cannot render anyOf and crashes with
+    'cannot access property inputType'. This function flattens those to
+    a simple {"type": "string"} keeping the original default and description.
+    Also handles int | None -> integer.
+    """
+    schema = dict(schema)
+    props = schema.get("properties")
+    if not props:
+        return schema
+
+    new_props = {}
+    for key, val in props.items():
+        val = dict(val)
+        if "anyOf" in val:
+            # Find the non-null type
+            non_null = [t for t in val["anyOf"] if t.get("type") != "null"]
+            if non_null:
+                # Merge: keep description, default, constraints; replace anyOf with type
+                merged = {k: v for k, v in val.items() if k != "anyOf"}
+                merged["type"] = non_null[0]["type"]
+                # Carry over constraints from the non-null type (ge/le become minimum/maximum)
+                for constraint_key in ("minimum", "maximum", "minLength", "maxLength", "enum"):
+                    if constraint_key in non_null[0]:
+                        merged[constraint_key] = non_null[0][constraint_key]
+                val = merged
+        new_props[key] = val
+
+    schema["properties"] = new_props
+    return schema
+
+
+# =============================================================================
 # Server Factory
 # =============================================================================
 
 
 def create_server() -> Server:
-    """Create and configure the MCP server.
-
-    :return: Configured MCP server instance.
-    :rtype: Server
-
-    Example::
-
-        server = create_server()
-        asyncio.run(server.run(...))
-    """
+    """Create and configure the MCP server."""
     server = Server("spanish-public-data")
 
     @server.list_tools()  # type: ignore[no-untyped-call, untyped-decorator]
@@ -403,131 +434,131 @@ def create_server() -> Server:
             Tool(
                 name="search_grants",
                 description="Search grant calls (convocatorias) from BDNS. Filter by date range and granting body.",
-                inputSchema=SearchGrantsInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchGrantsInput.model_json_schema()),
             ),
             Tool(
                 name="search_grant_awards",
                 description="Search awarded grants (concesiones) from BDNS. Filter by date range and beneficiary NIF.",
-                inputSchema=SearchGrantAwardsInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchGrantAwardsInput.model_json_schema()),
             ),
             Tool(
                 name="get_grant_details",
                 description="Get detailed information about a specific grant call by ID.",
-                inputSchema=GetGrantDetailsInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetGrantDetailsInput.model_json_schema()),
             ),
             # BOE tools (Legislation)
             Tool(
                 name="search_legislation",
                 description="Search consolidated Spanish legislation. Filter by query, dates, title, department, legal range (Ley, Real Decreto, etc.), matter, and include/exclude repealed laws.",
-                inputSchema=SearchLegislationInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchLegislationInput.model_json_schema()),
             ),
             Tool(
                 name="get_legislation_details",
                 description="Get metadata and details of a specific law or regulation.",
-                inputSchema=GetLegislationDetailsInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetLegislationDetailsInput.model_json_schema()),
             ),
             Tool(
                 name="get_legislation_text",
                 description="Get the full consolidated text of a law or regulation.",
-                inputSchema=GetLegislationTextInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetLegislationTextInput.model_json_schema()),
             ),
             Tool(
                 name="get_legislation_structure",
                 description="Get the structure/index of a law showing all its blocks (articles, dispositions, annexes). Use this to discover block IDs before fetching specific blocks.",
-                inputSchema=GetLegislationStructureInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetLegislationStructureInput.model_json_schema()),
             ),
             Tool(
                 name="get_legislation_block",
                 description="Get a specific block (article, disposition, annex) from a law. Use get_legislation_structure first to discover available block IDs.",
-                inputSchema=GetLegislationBlockInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetLegislationBlockInput.model_json_schema()),
             ),
             Tool(
                 name="get_departments_table",
                 description="Get the list of government departments with their codes. Use these codes with search_legislation's department_code filter.",
-                inputSchema=GetDepartmentsTableInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetDepartmentsTableInput.model_json_schema()),
             ),
             Tool(
                 name="get_legal_ranges_table",
                 description="Get the list of legal norm types (Ley, Real Decreto, Orden, etc.) with their codes. Use these codes with search_legislation's legal_range_code filter.",
-                inputSchema=GetLegalRangesTableInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetLegalRangesTableInput.model_json_schema()),
             ),
             Tool(
                 name="get_matters_table",
                 description="Get the list of subject matters/topics with their codes. Use these codes with search_legislation's matter_code filter.",
-                inputSchema=GetMattersTableInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetMattersTableInput.model_json_schema()),
             ),
             Tool(
                 name="find_related_laws",
                 description="Find laws related to a given legislation (modifications, repeals, references). Use this to understand what a law modifies, what modifies it, and related legislation.",
-                inputSchema=FindRelatedLawsInput.model_json_schema(),
+                inputSchema=_flatten_schema(FindRelatedLawsInput.model_json_schema()),
             ),
             Tool(
                 name="search_recent_boe",
                 description="Search BOE publications from the last N days. Useful for finding recent legislative activity. Supports filtering by section and search terms.",
-                inputSchema=SearchRecentBoeInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchRecentBoeInput.model_json_schema()),
             ),
             Tool(
                 name="get_boe_summary",
                 description="Get the daily BOE (Official Gazette) summary for a specific date. Supports filtering by section (1, 2A, 2B, 3, 4, 5, T) and department.",
-                inputSchema=GetBoeSummaryInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetBoeSummaryInput.model_json_schema()),
             ),
             # BORME tools (Company Registry)
             Tool(
                 name="get_borme_summary",
                 description="Get the daily BORME (Company Registry) summary with company acts for a specific date. Supports filtering by province. Defaults to most recent weekday.",
-                inputSchema=GetBormeSummaryInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetBormeSummaryInput.model_json_schema()),
             ),
             # INE tools (Statistics)
             Tool(
                 name="get_ine_operations",
                 description="Get list of all available INE statistical operations (IPC, EPA, PIB, etc.).",
-                inputSchema=GetIneOperationsInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetIneOperationsInput.model_json_schema()),
             ),
             Tool(
                 name="get_ine_operation",
                 description="Get details of a specific INE statistical operation by ID or code.",
-                inputSchema=GetIneOperationInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetIneOperationInput.model_json_schema()),
             ),
             Tool(
                 name="get_ine_table_data",
                 description="Get statistical data from a specific INE table.",
-                inputSchema=GetIneTableDataInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetIneTableDataInput.model_json_schema()),
             ),
             Tool(
                 name="get_ine_series_data",
                 description="Get time series data from INE by series code.",
-                inputSchema=GetIneSeriesDataInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetIneSeriesDataInput.model_json_schema()),
             ),
             Tool(
                 name="search_ine_tables",
                 description="Search for tables within a specific INE operation.",
-                inputSchema=SearchIneTablesInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchIneTablesInput.model_json_schema()),
             ),
             Tool(
                 name="get_ine_variables",
                 description="Get available variables, optionally filtered by operation.",
-                inputSchema=GetIneVariablesInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetIneVariablesInput.model_json_schema()),
             ),
             # datos.gob.es tools
             Tool(
                 name="search_open_data",
                 description="Search datasets in the Spanish national open data catalog (datos.gob.es). Filter by theme (medio-ambiente, economia, salud, etc.) or publisher.",
-                inputSchema=SearchOpenDataInput.model_json_schema(),
+                inputSchema=_flatten_schema(SearchOpenDataInput.model_json_schema()),
             ),
             Tool(
                 name="get_open_data_details",
                 description="Get detailed information about a specific dataset from datos.gob.es including distributions (download formats).",
-                inputSchema=GetOpenDataDetailsInput.model_json_schema(),
+                inputSchema=_flatten_schema(GetOpenDataDetailsInput.model_json_schema()),
             ),
             Tool(
                 name="list_open_data_themes",
                 description="List available themes/categories in datos.gob.es (e.g., medio-ambiente, economia, salud, educacion).",
-                inputSchema=ListOpenDataThemesInput.model_json_schema(),
+                inputSchema=_flatten_schema(ListOpenDataThemesInput.model_json_schema()),
             ),
             Tool(
                 name="list_open_data_publishers",
                 description="List publishers/organizations in datos.gob.es (government agencies that publish datasets).",
-                inputSchema=ListOpenDataPublishersInput.model_json_schema(),
+                inputSchema=_flatten_schema(ListOpenDataPublishersInput.model_json_schema()),
             ),
         ]
 
@@ -588,7 +619,6 @@ def create_server() -> Server:
                 result = await _search_ine_tables(SearchIneTablesInput(**arguments))
             elif name == "get_ine_variables":
                 result = await _get_ine_variables(GetIneVariablesInput(**arguments))
-            # datos.gob.es tools
             elif name == "search_open_data":
                 result = await _search_open_data(SearchOpenDataInput(**arguments))
             elif name == "get_open_data_details":
@@ -601,7 +631,6 @@ def create_server() -> Server:
                 result = {"error": f"Unknown tool: {name}"}
                 success = False
 
-            # Check if result contains an error
             if "error" in result:
                 success = False
                 error_msg = result["error"]
@@ -626,10 +655,6 @@ def create_server() -> Server:
                 error=error_msg,
             )
 
-    # =========================================================================
-    # Prompts
-    # =========================================================================
-
     @server.list_prompts()  # type: ignore[no-untyped-call, untyped-decorator]
     async def list_prompts() -> list[Prompt]:
         """List available prompts for common queries."""
@@ -650,7 +675,6 @@ def create_server() -> Server:
         if name not in ALL_PROMPTS:
             raise ValueError(f"Unknown prompt: {name}. Available prompts: {list(ALL_PROMPTS.keys())}")
 
-        # Route to appropriate prompt generator
         if name in BDNS_PROMPTS:
             return get_bdns_prompt_content(name, arguments)
         elif name in BOE_PROMPTS:
@@ -918,7 +942,6 @@ async def _search_legislation(params: SearchLegislationInput) -> dict[str, Any]:
     except HttpClientError as e:
         logger.exception("Error searching legislation")
         error_msg = str(e)
-        # Check if this is the known BOE API bug with text search
         if "500" in error_msg or "Internal Server Error" in error_msg:
             return {
                 "error": f"BOE API error: {error_msg}",
@@ -964,7 +987,6 @@ async def _get_legislation_details(params: GetLegislationDetailsInput) -> dict[s
                 "url_epub": data.get("url_epub"),
             }
 
-            # Optionally include legal analysis (references, modifications)
             if params.include_analysis:
                 analysis = client.fetch_legislation_analysis(params.legislation_id)
                 if analysis:
@@ -1020,7 +1042,6 @@ async def _get_legislation_structure(params: GetLegislationStructureInput) -> di
         if not data:
             return {"error": f"Legislation structure not found: {params.legislation_id}"}
 
-        # Extract blocks from the response
         blocks = data.get("bloque", [])
         if not isinstance(blocks, list):
             blocks = [blocks] if blocks else []
@@ -1056,7 +1077,6 @@ async def _get_legislation_block(params: GetLegislationBlockInput) -> dict[str, 
         if not data:
             return {"error": f"Legislation block not found: {params.legislation_id}/{params.block_id}"}
 
-        # Extract text content from the block
         text_content = ""
         if "texto" in data:
             texto = data["texto"]
@@ -1176,7 +1196,6 @@ async def _find_related_laws(params: FindRelatedLawsInput) -> dict[str, Any]:
         if not analysis:
             return {"error": f"No analysis found for legislation: {params.legislation_id}"}
 
-        # Extract all relation types
         relations: dict[str, Any] = {
             "legislation_id": params.legislation_id,
             "modifies": analysis.get("modifica", []),
@@ -1187,7 +1206,6 @@ async def _find_related_laws(params: FindRelatedLawsInput) -> dict[str, Any]:
             "referenced_by": analysis.get("referenciado_por", []),
         }
 
-        # Filter by relation type if specified
         if params.relation_type:
             relation_key = params.relation_type.lower().replace("-", "_")
             if relation_key in relations:
@@ -1202,7 +1220,6 @@ async def _find_related_laws(params: FindRelatedLawsInput) -> dict[str, Any]:
                     "error": f"Invalid relation_type: {params.relation_type}. Valid types: modifies, modified_by, repeals, repealed_by, references, referenced_by"
                 }
 
-        # Return all relations with counts
         total_count = sum(len(v) for k, v in relations.items() if k != "legislation_id" and isinstance(v, list))
         return {
             "legislation_id": params.legislation_id,
@@ -1236,7 +1253,6 @@ async def _search_recent_boe(params: SearchRecentBoeInput) -> dict[str, Any]:
             for i in range(params.days_back):
                 target_date = date.today() - timedelta(days=i)
 
-                # Skip weekends (BOE doesn't publish on weekends)
                 if target_date.weekday() >= 5:
                     continue
 
@@ -1261,7 +1277,6 @@ async def _search_recent_boe(params: SearchRecentBoeInput) -> dict[str, Any]:
                         "url_html": item.url_html,
                     }
 
-                    # Apply filters
                     if params.section_filter:
                         if not item.section or params.section_filter.upper() not in item.section.upper():
                             continue
@@ -1274,7 +1289,6 @@ async def _search_recent_boe(params: SearchRecentBoeInput) -> dict[str, Any]:
 
                     all_items.append(item_dict)
 
-                    # Stop if we've reached max_items
                     if len(all_items) >= params.max_items:
                         break
 
@@ -1308,15 +1322,13 @@ async def _get_boe_summary(params: GetBoeSummaryInput) -> dict[str, Any]:
         with BoeClient() as client:
             data = client.fetch_boe_summary(target_date)
 
-            # If no data found, try to find the most recent available BOE
             fallback_used = False
             original_date = target_date
-            max_attempts = 7  # Try up to 7 days back (covers weekends and holidays)
+            max_attempts = 7
 
             if not data:
                 for i in range(1, max_attempts + 1):
                     target_date = original_date - timedelta(days=i)
-                    # Skip weekends
                     if target_date.weekday() >= 5:
                         continue
                     data = client.fetch_boe_summary(target_date)
@@ -1335,7 +1347,6 @@ async def _get_boe_summary(params: GetBoeSummaryInput) -> dict[str, Any]:
 
         parsed = parse_boe_summary(data)
 
-        # Apply client-side filters
         filtered = parsed
         if params.section_filter:
             section_upper = params.section_filter.upper()
@@ -1369,7 +1380,6 @@ async def _get_boe_summary(params: GetBoeSummaryInput) -> dict[str, Any]:
             ],
         }
 
-        # Add warning if we used a fallback date
         if fallback_used:
             result["requested_date"] = requested_date.isoformat()
             result["warning"] = (
@@ -1387,7 +1397,6 @@ async def _get_borme_summary(params: GetBormeSummaryInput) -> dict[str, Any]:
     from public_radar.common.dates import parse_date
     from public_radar.sources.boe import BoeClient, parse_borme_summary
 
-    # Use latest weekday if no date provided (BORME doesn't publish on weekends)
     if params.date:
         target_date = parse_date(params.date)
     else:
@@ -1409,7 +1418,6 @@ async def _get_borme_summary(params: GetBormeSummaryInput) -> dict[str, Any]:
 
         parsed = parse_borme_summary(data)
 
-        # Apply client-side filters
         filtered = parsed
         if params.province_filter:
             prov_lower = params.province_filter.lower()
@@ -1467,7 +1475,7 @@ async def _get_ine_operations() -> dict[str, Any]:
                     "name": op.name,
                     "url": op.url,
                 }
-                for op in parsed[:100]  # Limit to first 100 for readability
+                for op in parsed[:100]
             ],
         }
     except Exception as e:
@@ -1513,7 +1521,6 @@ async def _get_ine_table_data(params: GetIneTableDataInput) -> dict[str, Any]:
         if not data:
             return {"error": f"Table not found or no data: {params.table_id}"}
 
-        # Process raw data - each item is a series with its data points
         series_list = []
         for item in data:
             series_code = item.get("COD", item.get("Codigo", ""))
@@ -1539,14 +1546,14 @@ async def _get_ine_table_data(params: GetIneTableDataInput) -> dict[str, Any]:
                 {
                     "series_code": series_code,
                     "series_name": series_name,
-                    "data_points": points[:50],  # Limit data points per series
+                    "data_points": points[:50],
                 }
             )
 
         return {
             "table_id": params.table_id,
             "series_count": len(series_list),
-            "series": series_list[:100],  # Limit series for readability
+            "series": series_list[:100],
         }
     except Exception as e:
         logger.exception("Error getting INE table data")
@@ -1566,7 +1573,6 @@ async def _get_ine_series_data(params: GetIneSeriesDataInput) -> dict[str, Any]:
         if not data:
             return {"error": f"Series not found or no data: {params.series_code}"}
 
-        # Extract series info and data points from raw response
         series_name = ""
         data_points = []
 
@@ -1660,7 +1666,7 @@ async def _get_ine_variables(params: GetIneVariablesInput) -> dict[str, Any]:
                     "name": var.name,
                     "code": var.code,
                 }
-                for var in parsed[:100]  # Limit for readability
+                for var in parsed[:100]
             ],
         }
     except Exception as e:
@@ -1741,7 +1747,6 @@ async def _get_open_data_details(params: GetOpenDataDetailsInput) -> dict[str, A
         if not data:
             return {"error": f"Dataset not found: {params.dataset_id}"}
 
-        # Parse the primary resource
         primary = data.get("primaryTopic", data)
         parsed = _parse_dataset(primary)
 
@@ -1841,45 +1846,24 @@ async def _list_open_data_publishers(params: ListOpenDataPublishersInput) -> dic
 
 
 def _latest_weekday(target: date) -> date:
-    """Get the most recent weekday (Monday-Friday).
-
-    If target is a weekday, returns target. Otherwise returns the previous Friday.
-
-    :param target: The date to check.
-    :type target: date
-    :return: The most recent weekday.
-    :rtype: date
-    """
+    """Get the most recent weekday (Monday-Friday)."""
     weekday = target.weekday()
     if weekday == 5:  # Saturday
-        return target - timedelta(days=1)  # Return Friday
+        return target - timedelta(days=1)
     elif weekday == 6:  # Sunday
-        return target - timedelta(days=2)  # Return Friday
+        return target - timedelta(days=2)
     return target
 
 
 def _json_serializer(obj: Any) -> Any:
-    """JSON serializer for special types.
-
-    :param obj: Object to serialize.
-    :type obj: Any
-    :return: JSON-serializable representation.
-    :rtype: Any
-    :raises TypeError: If object type is not supported.
-    """
+    """JSON serializer for special types."""
     if isinstance(obj, (date, datetime)):
         return obj.isoformat()
     raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
 
 def _to_json(data: dict[str, Any]) -> str:
-    """Convert data to JSON string with standard settings.
-
-    :param data: Data to serialize.
-    :type data: dict[str, Any]
-    :return: JSON string.
-    :rtype: str
-    """
+    """Convert data to JSON string with standard settings."""
     return json.dumps(data, default=_json_serializer, ensure_ascii=False)
 
 
@@ -1889,33 +1873,14 @@ def _to_json(data: dict[str, Any]) -> str:
 
 
 async def run_server() -> None:
-    """Run the MCP server using stdio transport.
-
-    This is the primary entry point for Claude Desktop integration.
-
-    Example::
-
-        import asyncio
-        asyncio.run(run_server())
-    """
+    """Run the MCP server using stdio transport."""
     server = create_server()
     async with stdio_server() as (read_stream, write_stream):
         await server.run(read_stream, write_stream, server.create_initialization_options())
 
 
 async def run_sse_server(host: str = "0.0.0.0", port: int = 8080) -> None:
-    """Run the MCP server using SSE (HTTP) transport.
-
-    :param host: Host to bind to.
-    :type host: str
-    :param port: Port to bind to.
-    :type port: int
-
-    Example::
-
-        import asyncio
-        asyncio.run(run_sse_server(host="0.0.0.0", port=8080))
-    """
+    """Run the MCP server using SSE (HTTP) transport."""
     import uvicorn
     from mcp.server.sse import SseServerTransport
 
