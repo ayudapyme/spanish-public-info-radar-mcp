@@ -394,6 +394,7 @@ def _flatten_schema(schema: dict) -> dict:
     new_props = {}
     for key, val in props.items():
         val = dict(val)
+        val.pop("title", None)
         if "anyOf" in val:
             # Find the non-null type
             non_null = [t for t in val["anyOf"] if t.get("type") != "null"]
