@@ -386,7 +386,7 @@ def _flatten_schema(schema: dict) -> dict:
     Also handles int | None -> integer.
     """
     schema = dict(schema)
-    for k in ("title", "$defs", "$schema"):
+    for k in ("title", "description", "$defs", "$schema"):
         schema.pop(k, None)
     props = schema.get("properties")
     if not props:
